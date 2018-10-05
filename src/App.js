@@ -1,9 +1,27 @@
 import React, { Component } from "react";
+import ToDoList from "./components/ToDoList";
+import SignIn from "./components/SignIn";
+import requireAuth from "./components/auth/requireAuth";
+import { BrowserRouter, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchUser } from "./actions";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
   render() {
-    return <div>Hello World</div>;
+    return (
+      <BrowserRouter>
+        <div className="container">
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          <Route exact path="/" component={SignIn} />
+          <Route path="/app" component={requireAuth(ToDoList, SignIn)} />
+        </div>
+      </BrowserRouter>
+    )
   }
 }
 
-export default App;
+export default connect(null, { fetchUser })(App);
