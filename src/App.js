@@ -14,8 +14,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="container">
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <div className="container">          
           <Route exact path="/" component={SignIn} />
           <Route path="/app" component={requireAuth(ToDoList, SignIn)} />
         </div>

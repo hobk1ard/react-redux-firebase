@@ -7,3 +7,5 @@ const databaseRef = firebase.database().ref();
 export const todosRef = databaseRef.child("todos");
 export const authRef = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
+
+export const restToDosRef = "https://" + FirebaseConfig.databaseURL +"todos";

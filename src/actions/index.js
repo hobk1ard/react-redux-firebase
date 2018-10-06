@@ -1,11 +1,17 @@
-import { todosRef, authRef, provider } from "../config/firebase";
+import { todosRef, restToDosRef, authRef, provider } from "../config/firebase";
 import { FETCH_TODOS, FETCH_USER } from "./types";
+import request from 'superagent';
 
 export const addToDo = (newToDo, uid) => async dispatch => {
-  todosRef
-    .child(uid)
-    .push()
-    .set(newToDo);
+//   todosRef
+//     .child(uid)
+//     .push()
+//     .set(newToDo);
+    request.post(restToDosRef).send(newToDo).then(res => {
+        console.log("New ToDo added");
+    }).catch(err => {
+        console.log("Error adding new ToDo: " + err.message);
+    });
 };
 
 export const completeToDo = (completeToDoId, uid) => async dispatch => {
