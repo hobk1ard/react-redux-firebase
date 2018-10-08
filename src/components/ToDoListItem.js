@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { completeToDo } from "../actions";
+import * as actions from "../actions";
 
 class ToDoListItem extends Component {
     handleCompleteClick = completeToDoId => {
-        const { completeToDo, auth } = this.props;
+        const { completeToDo, fetchToDos, auth } = this.props;
         completeToDo(completeToDoId, auth.uid);
     };
 
@@ -32,4 +32,4 @@ const mapStateToProps = ({ auth }) => {
     };
 }
 
-export default connect(mapStateToProps, { completeToDo })(ToDoListItem);
+export default connect(mapStateToProps, actions)(ToDoListItem);

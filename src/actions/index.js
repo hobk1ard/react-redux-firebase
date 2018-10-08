@@ -1,12 +1,18 @@
 import { todosRef, restToDosRef, authRef, provider } from "../config/firebase";
-import { FETCH_TODOS, FETCH_USER } from "./types";
+import { FETCH_TODOS, FETCH_USER, REMOVE_TODOS, ADD_TODOS } from "./types";
 import request from 'superagent';
 
 export const addToDo = (newToDo, uid) => async dispatch => {
-    todosRef
+    debugger;
+    var toDoRef = todosRef
         .child(uid)
-        .push()
-        .set(newToDo);
+        .push();
+    toDoRef.set(newToDo);
+    dispatch({
+        type: ADD_TODOS,
+        id: toDoRef.key,
+        payload: newToDo
+    });
     // request.post(restToDosRef).send(newToDo).then(res => {
     //     console.log("New ToDo added");
     // }).catch(err => {
@@ -19,7 +25,10 @@ export const completeToDo = (completeToDoId, uid) => async dispatch => {
     //     .child(uid)
     //     .child(completeToDoId)
     //     .remove();
-
+    dispatch({
+        type: REMOVE_TODOS,
+        payload: completeToDoId
+    });
     request.delete(restToDosRef).set('uid', uid).set('toDoId', completeToDoId).then(res => {
         debugger;
         const payload = JSON.parse(res.text);
@@ -38,8 +47,8 @@ export const fetchToDos = (uid) => async dispatch => {
     //       payload: snapshot.val()
     //     });
     //   });
-    // debugger;
     request.get(restToDosRef).set('uid', uid).then(res => {
+        debugger;
         const payload = JSON.parse(res.text);
         if (res.status === 200) {
             dispatch({
