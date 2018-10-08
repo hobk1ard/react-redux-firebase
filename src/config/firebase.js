@@ -8,4 +8,4 @@ export const todosRef = databaseRef.child("todos");
 export const authRef = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 
-export const restToDosRef = "https://" + FirebaseConfig.databaseURL +"todos";
+export const restToDosRef = "https://us-central1-elementary-336ee.cloudfunctions.net/toDo/";
