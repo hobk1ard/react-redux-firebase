@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { completeToDo } from "../actions";
+import * as actions from "../actions";
 
 class ToDoListItem extends Component {
     handleCompleteClick = completeToDoId => {
@@ -32,4 +32,4 @@ const mapStateToProps = ({ user }) => {
     };
 }
 
-export default connect(mapStateToProps, { completeToDo })(ToDoListItem);
+export default connect(mapStateToProps, actions)(ToDoListItem);

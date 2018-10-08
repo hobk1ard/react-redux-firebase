@@ -1,62 +1,66 @@
 import { todosRef, restToDosRef, authRef, provider, getUserToDoURL } from "../config/firebase";
-import { FETCH_TODOS, FETCH_USER } from "./types";
+import { FETCH_TODOS, FETCH_USER, REMOVE_TODOS, ADD_TODOS } from "./types";
 import request from 'superagent';
 
 export const addToDo = (newToDo, user) => async dispatch => {
-    //   todosRef
-    //     .child(user.uid)
-    //     .push()
-    //     .set(newToDo);
-    if (!user) {
-        signOut();
-        return;
-    }
-    //request.post(getUserToDoURL(user.uid)).set("Authorization", "Bearer " + user.accessToken).send(newToDo).then(res => {
-    //request.post(restToDosRef).send(newToDo).then(res => {
-    request.post(restToDosRef).query('auth=' + user.accessToken).send(newToDo).then(res => {
-        console.log("New ToDo added");
-        debugger;
-    }).catch(err => {
-        console.log("Error adding new ToDo: " + err.message);
-        debugger;
-    });
-};
-
-export const completeToDo = (completeToDoId, user) => async dispatch => {
-    if (!user) {
-        signOut();
-        return;
-    }
-    todosRef
-        .child(user.uid)
-        .child(completeToDoId)
-        .remove();
-};
-
-export const fetchToDos = (user) => async dispatch => {
-    if (!user) {
-        signOut();
-        return;
-    }
-    // todosRef.child(user.uid).on("value", snapshot => {
-    //     dispatch({
-    //         type: FETCH_TODOS,
-    //         payload: snapshot.val()
-    //     });
-    // });
     debugger;
-    //request.get(restToDosRef).query('uid=' + user.uid).query('auth=' + user.accessToken).then(res => {
-    request.get(restToDosRef).query('uid=' + user.uid).then(res => {
-    //request.get(restToDosRef).then(res => {
-        debugger;
-        dispatch({
-            type: FETCH_TODOS,
-            payload: res.val()
-        });
-    }).catch(err => {
-        console.log("Error adding new ToDo: " + err.message);
-        debugger;
+    var toDoRef = todosRef
+        .child(user.uid)
+        .push();
+    toDoRef.set(newToDo);
+    dispatch({
+        type: ADD_TODOS,
+        id: toDoRef.key,
+        payload: newToDo
     });
+    // request.post(restToDosRef).send(newToDo).then(res => {
+    //     console.log("New ToDo added");
+    // }).catch(err => {
+    //     console.log("Error adding new ToDo: " + err.message);
+    // });
+};
+
+export const completeToDo = (completeToDoId, uid) => async dispatch => {
+    // todosRef
+    //     .child(user.uid)
+    //     .child(completeToDoId)
+    //     .remove();
+    dispatch({
+        type: REMOVE_TODOS,
+        payload: completeToDoId
+    });
+    request.delete(restToDosRef).set('uid', user.uid).set('toDoId', completeToDoId).then(res => {
+        debugger;
+        const payload = JSON.parse(res.text);
+        if (res.status !== 200) {
+            debugger;
+            alert(`${res.status}: ${payload.message}`);
+        }
+    })
+};
+
+export const fetchToDos = (userid) => async dispatch => {
+    //   todosRef.child(user.uid).on("value", snapshot => {
+    //       debugger;
+    //     dispatch({
+    //       type: FETCH_TODOS,
+    //       payload: snapshot.val()
+    //     });
+    //   });
+    request.get(restToDosRef).set('uid', user.uid).then(res => {
+        debugger;
+        const payload = JSON.parse(res.text);
+        if (res.status === 200) {
+            dispatch({
+                type: FETCH_TODOS,
+                payload: payload.todos
+            });
+        }
+        else {
+            debugger;
+            alert(`${res.status}: ${payload.message}`);
+        }
+    })
 };
 
 export const fetchUser = () => dispatch => {
