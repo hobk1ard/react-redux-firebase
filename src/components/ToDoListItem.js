@@ -4,8 +4,8 @@ import { completeToDo } from "../actions";
 
 class ToDoListItem extends Component {
     handleCompleteClick = completeToDoId => {
-        const { completeToDo, auth } = this.props;
-        completeToDo(completeToDoId, auth.uid);
+        const { completeToDo, user } = this.props;
+        completeToDo(completeToDoId, user);
     };
 
     render() {
@@ -26,9 +26,9 @@ class ToDoListItem extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ user }) => {
     return {
-        auth
+        user
     };
 }
 

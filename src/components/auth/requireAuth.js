@@ -9,19 +9,19 @@ export default function(ComposedComponent, SignInComponent) {
         };
 
         componentDidMount() {
-            if (this.props.authenticated === null) {
+            if (this.props.user === null || !this.props.user.accessToken) {
                 this.context.router.history.push("/");
             }
         }
 
         componentDidUpdate(nextProps) {
-            if (!nextProps.authenticated) {
+            if (!nextProps.user || !nextProps.user.accessToken) {
                 this.context.router.history.push("/");
             }
         }
 
         render() {
-            if (this.props.authenticated) {
+            if (this.props.user && this.props.user.accessToken) {
                 return <ComposedComponent {...this.props} />;
             }
             return <SignInComponent {...this.props} />;
@@ -29,7 +29,7 @@ export default function(ComposedComponent, SignInComponent) {
     }
 
     function mapStateToProps(state) {
-        return {authenticated: state.auth};
+        return {user: state.user};
     }
 
     return connect(mapStateToProps)(Authentication);

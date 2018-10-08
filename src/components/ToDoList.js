@@ -17,9 +17,9 @@ class ToDoList extends Component {
 
     handleFormSubmit = event => {
         const { addFormValue } = this.state;
-        const { addToDo, auth } = this.props;
+        const { addToDo, user } = this.props;
         event.preventDefault();
-        addToDo({ title: addFormValue }, auth.uid);
+        addToDo({ title: addFormValue }, user);
         this.setState({ addFormValue: "" });
     };
 
@@ -68,8 +68,8 @@ class ToDoList extends Component {
 
     // Component event that is invoked immediately after a component is mounted
     componentDidMount() {
-        const { auth } = this.props;
-        this.props.fetchToDos(auth.uid);
+        const { user } = this.props;
+        this.props.fetchToDos(user);
     }
 
     render() {
@@ -104,8 +104,8 @@ class ToDoList extends Component {
     };
 }
 
-const mapStateToProps = ({ data, auth }) => {
-    return { data , auth };
+const mapStateToProps = ({ data, user }) => {
+    return { data , user };
 };
 
 export default connect(mapStateToProps, actions)(ToDoList);

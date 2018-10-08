@@ -10,7 +10,7 @@ class Signin extends Component {
     };
 
     componentWillUpdate(nextProps) {
-        if (nextProps.auth) {
+        if (nextProps.user) {
             this.context.router.history.push("/app");
         }
     }
@@ -31,8 +31,8 @@ class Signin extends Component {
     }
 }
 
-function mapStateToProps({auth}) {
-    return {auth};
+function mapStateToProps({user}) {
+    return {user};
 }
 
 export default connect(mapStateToProps, {signIn})(Signin);
