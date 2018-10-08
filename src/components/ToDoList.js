@@ -17,7 +17,7 @@ class ToDoList extends Component {
 
     handleFormSubmit = event => {
         const { addFormValue } = this.state;
-        const { addToDo, fetchToDos, auth } = this.props;
+        const { addToDo, auth } = this.props;
         event.preventDefault();
         addToDo({ title: addFormValue }, auth.uid);
         this.setState({ addFormValue: "" });

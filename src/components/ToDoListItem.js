@@ -4,7 +4,7 @@ import * as actions from "../actions";
 
 class ToDoListItem extends Component {
     handleCompleteClick = completeToDoId => {
-        const { completeToDo, fetchToDos, auth } = this.props;
+        const { completeToDo, auth } = this.props;
         completeToDo(completeToDoId, auth.uid);
     };
 
