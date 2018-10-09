@@ -7,6 +7,10 @@ import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 import logger from "redux-logger";
 import reducers from "./reducers";
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+import './index.css';
 import App from "./App";
 import * as serviceWorker from './serviceWorker';
 

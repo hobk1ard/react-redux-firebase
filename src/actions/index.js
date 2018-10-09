@@ -1,9 +1,8 @@
-import { todosRef, restToDosRef, authRef, provider, getUserToDoURL } from "../config/firebase";
+import { todosRef, restToDosRef, authRef, provider } from "../config/firebase";
 import { FETCH_TODOS, FETCH_USER, REMOVE_TODOS, ADD_TODOS } from "./types";
 import request from 'superagent';
 
 export const addToDo = (newToDo, user) => async dispatch => {
-    debugger;
     var toDoRef = todosRef
         .child(user.uid)
         .push();
@@ -20,7 +19,7 @@ export const addToDo = (newToDo, user) => async dispatch => {
     // });
 };
 
-export const completeToDo = (completeToDoId, uid) => async dispatch => {
+export const completeToDo = (completeToDoId, user) => async dispatch => {
     // todosRef
     //     .child(user.uid)
     //     .child(completeToDoId)
@@ -29,26 +28,22 @@ export const completeToDo = (completeToDoId, uid) => async dispatch => {
         type: REMOVE_TODOS,
         payload: completeToDoId
     });
-    request.delete(restToDosRef).set('uid', user.uid).set('toDoId', completeToDoId).then(res => {
-        debugger;
+    request.delete(restToDosRef).set('Authorization', 'Bearer ' + user.accessToken).set('uid', user.uid).set('toDoId', completeToDoId).then(res => {
         const payload = JSON.parse(res.text);
         if (res.status !== 200) {
-            debugger;
             alert(`${res.status}: ${payload.message}`);
         }
     })
 };
 
-export const fetchToDos = (userid) => async dispatch => {
+export const fetchToDos = (user) => async dispatch => {
     //   todosRef.child(user.uid).on("value", snapshot => {
-    //       debugger;
     //     dispatch({
     //       type: FETCH_TODOS,
     //       payload: snapshot.val()
     //     });
     //   });
-    request.get(restToDosRef).set('uid', user.uid).then(res => {
-        debugger;
+    request.get(restToDosRef).set('uid', user.uid).set('Authorization', 'Bearer ' + user.accessToken).then(res => {
         const payload = JSON.parse(res.text);
         if (res.status === 200) {
             dispatch({
@@ -57,9 +52,10 @@ export const fetchToDos = (userid) => async dispatch => {
             });
         }
         else {
-            debugger;
             alert(`${res.status}: ${payload.message}`);
         }
+    }).catch(err => {
+        console.log(err.message);
     })
 };
 
@@ -91,20 +87,24 @@ export const signIn = () => dispatch => {
         .signInWithPopup(provider)
         .then(result => {
             console.log("Sign in successful");
-            debugger;
-            window.localStorage.setItem("accessToken", result.credential.idToken);
-            window.localStorage.setItem("uid", result.user.uid);
-            dispatch({
-                type: FETCH_USER,
-                payload: {
-                    displayName: result.user.displayName,
-                    email: result.user.email,
-                    phoneNumber: result.user.phoneNumber,
-                    photoURL: result.user.photoURL,
-                    uid: result.user.uid,
-                    accessToken: result.credential.idToken
-                }
-            });
+            authRef.currentUser.getIdToken().then((idToken) => {
+                window.localStorage.setItem("accessToken", idToken);
+                window.localStorage.setItem("uid", result.user.uid);
+                dispatch({
+                    type: FETCH_USER,
+                    payload: {
+                        displayName: result.user.displayName,
+                        email: result.user.email,
+                        phoneNumber: result.user.phoneNumber,
+                        photoURL: result.user.photoURL,
+                        uid: result.user.uid,
+                        accessToken: idToken
+                    }
+                });
+            })
+        })
+        .then(idToken => {
+            window.localStorage.setItem("accessToken", idToken);
         })
         .catch(error => {
             console.log(error);

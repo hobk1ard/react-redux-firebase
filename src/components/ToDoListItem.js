@@ -11,12 +11,12 @@ class ToDoListItem extends Component {
     render() {
         const { todoId, todo } = this.props;
         return (
-            <div key="toDoName" className="col s10 offset-s1 to-do-list-item teal">
+            <div key="toDoName" className="col s10 offset-s1 to-do-list-item indigo">
                 <h4>
                     {todo.title}{" "}
                     <span
                         onClick={() => this.handleCompleteClick(todoId)}
-                        className="complete-todo-item waves-effect waves-light teal lighten-5 teal-text text-darken-4 btn"
+                        className="complete-todo-item waves-effect waves-light lighten-3 white-text text-darken-4 btn"
                     >
                         <i className="large material-icons">done</i>
                     </span>

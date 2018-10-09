@@ -12,3 +12,71 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.App{
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.App-logo{
+	width: 10rem;
+}
+
+.flyout {
+	display:flex;
+	flex-direction: column;
+	min-height:100vh;
+	justify-content: space-between;
+}
+
+.home-feature-box .fa {
+	font-size:6rem;
+}
+
+.home-feature-box span {
+	display: block;
+	color:#111;
+	font-weight:bold;
+	margin-top:1.5rem;
+}
+
+.example-components-list li > a {
+  color: #495057;
+}
+
+.example-components-list li:last-child > a {
+	border-bottom:0;
+}
+
+.example-components-list li > a .fa {
+	color:rgba(0,0,0,.35);
+	float:right;
+}
+
+.nav-signin {
+  padding: 10px 20px 10px 20px;
+  font-size: 15px;
+  border-radius: 100px;
+  text-align: center;
+  text-decoration: none;
+  border:2px solid white;
+  color: white;
+  transition: opacity 0.5s;
+  display: inline;
+  vertical-align: middle;
+}
+
+.nav-signin:hover {
+  color: white;
+  background-color: #dc453a;
+}
+
+.nav-signin-container {
+  display: table-cell;
+  vertical-align: middle;
+  padding-top: 10%;
+}

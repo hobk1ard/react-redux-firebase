@@ -10,3 +10,4 @@ export const provider = new firebase.auth.GoogleAuthProvider();
 export const cloudFunctionRef = "https://us-central1-elementary-336ee.cloudfunctions.net";
 
 export const restToDosRef = "https://us-central1-elementary-336ee.cloudfunctions.net/toDo/";
+//export const restToDosRef = "https://localhost:5000/elementary-336ee/us-central1/toDo/";
