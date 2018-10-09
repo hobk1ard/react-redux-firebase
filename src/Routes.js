@@ -5,19 +5,27 @@ import { connect } from "react-redux";
 import requireAuth from "./components/auth/requireAuth";
 import ToDoList from "./components/ToDoList";
 import SignIn from "./components/SignIn";
+import UserProfile from "./components/UserProfile";
+import Home from "./components/Home";
+import Projects from "./components/Projects";
 
 import { fetchUser } from "./actions";
 
 class Routes extends React.Component {
     componentDidMount() {
         this.props.fetchUser();
-      }
+    }
 
     render() {
         return (
             <Switch>
-                <Route exact path="/" component={SignIn} />
-                <Route path="/app" component={requireAuth(ToDoList, SignIn)} />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/Home" component={Home} />
+                <Route exact path="/SignIn" component={requireAuth(UserProfile, SignIn)} />
+                {/* <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} /> */}
+                <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} />
+                <Route path="/UserProfile" component={requireAuth(UserProfile, SignIn)} />
+                <Route path="/Projects" component={Projects} />
                 <Route
                     render={function () {
                         return <h1>Not Found</h1>;

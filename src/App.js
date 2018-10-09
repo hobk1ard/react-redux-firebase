@@ -71,14 +71,13 @@ class App extends Component {
           <Navbar color="indigo" dark expand="md" fixed="top" scrolling>
             <NavbarBrand href="/" className="amber-text">
               <img
+                alt="check box"
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTkgNTkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDU5IDU5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGNsYXNzPSIiPjxnIHRyYW5zZm9ybT0ibWF0cml4KDAuOTg5ODAyIDAgMCAwLjk4OTgwMiAwLjMwMDg0IDAuMzAwODQpIj48Zz4KCTxwYXRoIGQ9Ik01MiwyMWMtMC41NTMsMC0xLDAuNDQ3LTEsMXYzMkgyVjVoNDl2MWMwLDAuNTUzLDAuNDQ3LDEsMSwxczEtMC40NDcsMS0xVjNIMHY1M2g1M1YyMkM1MywyMS40NDcsNTIuNTUzLDIxLDUyLDIxeiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBzdHlsZT0iZmlsbDojRkZDMTA3IiBkYXRhLW9sZF9jb2xvcj0iI2ZmYzEwNyI+PC9wYXRoPgoJPHBhdGggZD0iTTU4LjcwNyw3LjI5M2MtMC4zOTEtMC4zOTEtMS4wMjMtMC4zOTEtMS40MTQsMEwyNywzNy41ODZsLTEzLjA3LTEzLjA3Yy0wLjM5MS0wLjM5MS0xLjAyMy0wLjM5MS0xLjQxNCwwICAgcy0wLjM5MSwxLjAyMywwLDEuNDE0bDEzLjc3NywxMy43NzdDMjYuNDg4LDM5LjkwMiwyNi43NDQsNDAsMjcsNDBzMC41MTItMC4wOTgsMC43MDctMC4yOTNsMzEtMzEgICBDNTkuMDk4LDguMzE2LDU5LjA5OCw3LjY4NCw1OC43MDcsNy4yOTN6IiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iYWN0aXZlLXBhdGgiIHN0eWxlPSJmaWxsOiNGRkMxMDciIGRhdGEtb2xkX2NvbG9yPSIjZmZjMTA3Ij48L3BhdGg+CjwvZz48L2c+IDwvc3ZnPg=="
                 height="40"
               />{" "}
               Elementary ToDo
             </NavbarBrand>
-            <NavbarToggler
-              onClick={this.toggleCollapse("mainNavbarCollapse")}
-            />
+            { !this.state.isWideEnough && <NavbarToggler onClick = { this.onClick } />}
             <Collapse
               id="mainNavbarCollapse"
               isOpen={this.state.collapseID}
