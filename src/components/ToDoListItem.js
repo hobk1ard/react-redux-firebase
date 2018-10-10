@@ -3,20 +3,15 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 
 class ToDoListItem extends Component {
-    handleCompleteClick = completeToDoId => {
-        const { completeToDo, user } = this.props;
-        completeToDo(completeToDoId, user);
-    };
-
     render() {
-        const { todoId, todo } = this.props;
+        const { todoId, todo, handleCompleteClick} = this.props;
         return (
-            <div key="toDoName" className="col s10 offset-s1 to-do-list-item indigo">
+            <div key="toDoName" className="col-10 offset-1 to-do-list-item indigo">
                 <h4>
                     {todo.title}{" "}
                     <span
-                        onClick={() => this.handleCompleteClick(todoId)}
-                        className="complete-todo-item waves-effect waves-light lighten-3 white-text text-darken-4 btn"
+                        onClick={() => handleCompleteClick(todoId)}
+                        className="complete-todo-item waves-effect waves-yellow waves-light lighten-3 white-text text-darken-4 btn"
                     >
                         <i className="large material-icons">done</i>
                     </span>

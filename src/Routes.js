@@ -9,11 +9,11 @@ import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 
-import { fetchUser } from "./actions";
+import { fetchCurrentUser } from "./actions";
 
 class Routes extends React.Component {
     componentDidMount() {
-        this.props.fetchUser();
+        this.props.fetchCurrentUser();
     }
 
     render() {
@@ -36,4 +36,4 @@ class Routes extends React.Component {
     }
 }
 
-export default connect(null, { fetchUser })(Routes);
+export default connect(null, { fetchCurrentUser })(Routes);

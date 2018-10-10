@@ -17,17 +17,24 @@ class ToDoList extends Component {
 
     handleFormSubmit = event => {
         const { addFormValue } = this.state;
-        const { addToDo, user } = this.props;
+        const { addToDo, user, toDoList } = this.props;
         event.preventDefault();
-        addToDo({ title: addFormValue }, user);
-        this.setState({ addFormValue: "" });
+        addToDo({ title: addFormValue }, user, toDoList.count);
+        this.setState({
+            addFormValue: ""
+        });
+    };
+
+    handleCompleteClick = completeToDoId => {
+        const { completeToDo, user, toDoList } = this.props;
+        completeToDo(completeToDoId, user, toDoList.count);
     };
 
     renderAddForm = () => {
         const { addFormVisible, addFormValue } = this.state;
         if (addFormVisible) {
             return (
-                <div id="todo-add-form" className="col s10 offset-s1">
+                <div id="todo-add-form" className="col">
                     <form onSubmit={this.handleFormSubmit}>
                         <div className="input-field">
                             <i className="material-icons prefix">note_add</i>
@@ -46,9 +53,9 @@ class ToDoList extends Component {
     };
 
     renderToDos() {
-        const { data } = this.props;
-        const toDos = _.map(data, (value, key) => {
-            return (<div className="row"><ToDoListItem key={key} todoId={key} todo={value} /></div>);
+        const { toDoList } = this.props;
+        const toDos = _.map(toDoList.toDos, (value, key) => {
+            return (<div className="row"><ToDoListItem handleCompleteClick={this.handleCompleteClick} key={key} todoId={key} todo={value} /></div>);
         });
         if (!_.isEmpty(toDos)) {
             return toDos;
@@ -74,10 +81,14 @@ class ToDoList extends Component {
     }
 
     render() {
+        const { user } = this.props;
         const { addFormVisible } = this.state;
         return (
             <div className="to-do-list-container">
-                <div className="row">
+                <div className="container">
+                    <h2 className="text-center font-weight-bold">{user.displayName ? `${user.displayName}'s ToDo List` : "Loading..."}</h2>
+                </div>
+                <div className="container">
                     {this.renderAddForm()}
                 </div>
                 <div className="container">
@@ -107,8 +118,8 @@ class ToDoList extends Component {
     };
 }
 
-const mapStateToProps = ({ data, user }) => {
-    return { data, user };
+const mapStateToProps = ({ toDoList, user }) => {
+    return { toDoList, user };
 };
 
 export default connect(mapStateToProps, actions)(ToDoList);

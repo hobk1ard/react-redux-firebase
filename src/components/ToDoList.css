@@ -24,6 +24,11 @@
     line-height: 1;
     background-color: #cc7f1a;
   }
+
+  .complete-todo-item:hover {
+    opacity: 0.9;
+    background-color: #cc7f1a;
+  }
   
   .fixed-action-btn {
     margin-bottom: 50px;
@@ -35,7 +40,7 @@
   }
 
   #todo-add-form {
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-name: slidein;
   }
   

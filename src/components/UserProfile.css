@@ -1,0 +1,33 @@
+hr {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 8px auto;
+    height: 0;
+    width: 100%;
+    max-height: 0;
+    font-size: 1px;
+    line-height: 0;
+    clear: both;
+    border: none;
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #ffffff;
+ }
+
+ .profile-picture {
+    border-radius: 20%;
+ }
+
+ .circle {
+    height: 50px;
+    width: 50px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+.circle-label {
+    height: 50px;
+    display: table-cell;
+}

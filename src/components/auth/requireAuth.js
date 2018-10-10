@@ -21,7 +21,6 @@ export default function(ComposedComponent, SignInComponent) {
         }
 
         render() {
-            debugger;
             if (this.props.user && this.props.user.accessToken) {
                 return <ComposedComponent {...this.props} />;
             }

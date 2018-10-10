@@ -1,9 +1,9 @@
-import { todosRef, restCloudToDosRef, restApiToDosRef, authRef, provider } from "../config/firebase";
+import { todosRef, usersRef, restCloudToDosRef, restApiToDosRef, restApiUserRef, authRef, provider } from "../config/firebase";
 import { FETCH_TODOS, FETCH_USER, REMOVE_TODOS, ADD_TODOS } from "./types";
 import request from 'superagent';
 import requestConfig from '../config/keys';
 
-export const addToDo = (newToDo, user) => async dispatch => {
+export const addToDo = (newToDo, user, toDoCount) => async dispatch => {
     if (user) {
         switch (requestConfig) {
             case "REST_API":
@@ -24,6 +24,7 @@ export const addToDo = (newToDo, user) => async dispatch => {
                     id: toDoRef.key,
                     payload: newToDo
                 });
+                updateUserToDoCount(user, toDoCount + 1); 
                 break;
         }
     }
@@ -32,7 +33,7 @@ export const addToDo = (newToDo, user) => async dispatch => {
     }
 };
 
-export const completeToDo = (completeToDoId, user) => async dispatch => {
+export const completeToDo = (completeToDoId, user, toDoCount) => async dispatch => {
     if (user) {
         switch (requestConfig) {
             case "REST_CLOUD":
@@ -53,6 +54,7 @@ export const completeToDo = (completeToDoId, user) => async dispatch => {
                     .child(user.uid)
                     .child(completeToDoId)
                     .remove();
+                updateUserToDoCount(user, toDoCount - 1);
                 break;
         }
     }
@@ -61,8 +63,65 @@ export const completeToDo = (completeToDoId, user) => async dispatch => {
     }
 };
 
-export const fetchToDos = (user) => async dispatch => {
-    debugger;
+const saveUserRecord = (user) => async () => {
+    const record = {
+        public: {
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+        },
+        private: {
+            email: user.email,
+            phoneNumber: user.phoneNumber
+        }
+    }
+    switch (requestConfig) {
+        case "REST_API":
+            request.update(restApiUserRef + "/" + user.uid).send(record).then(res => {
+                console.log("User Updated");
+            }).catch(err => {
+                console.log("Error updating user: " + err.message);
+            });
+            break;
+        case "API":
+        default:
+            usersRef
+                .child(user.uid)
+                .update(record)
+                .then(res => {
+                    console.log("User Updated");
+                }).catch(err => {
+                    console.log("Error updating user: " + err.message);
+                });;
+            break;
+    }
+};
+
+const updateUserToDoCount = (user, count) => async () => {
+    switch (requestConfig) {
+        case "REST_API":
+            request.update(restApiUserRef + "/" + user.uid + "/public/toDoCount").send(count).then(res => {
+                console.log("User ToDo Count Updated");
+            }).catch(err => {
+                console.log("Error updating user todo count: " + err.message);
+            });
+            break;
+        case "API":
+        default:
+            usersRef
+                .child(user.uid)
+                .child("public")
+                .child("toDoCount")
+                .update(count)
+                .then(res => {
+                    console.log("User ToDo Count Updated");
+                }).catch(err => {
+                    console.log("Error updating user todo count: " + err.message);
+                });;
+            break;
+    }
+}
+
+export const fetchToDos = (user = null, projectId = null) => async dispatch => {
     if (user) {
         switch (requestConfig) {
             case "REST_CLOUD":
@@ -83,11 +142,17 @@ export const fetchToDos = (user) => async dispatch => {
                 break;
             case "API":
             default:
-                debugger;
                 todosRef.child(user.uid).on("value", snapshot => {
+                    const count = snapshot.numChildren();
+                    updateUserToDoCount(user, count);
                     dispatch({
                         type: FETCH_TODOS,
-                        payload: snapshot.val()
+                        payload: {
+                            userId: user.uid,
+                            projectId: null,
+                            toDos: snapshot.val(),
+                            count: count
+                        }
                     });
                 });
                 break;
@@ -98,9 +163,8 @@ export const fetchToDos = (user) => async dispatch => {
     }
 };
 
-export const fetchUser = () => dispatch => {
+export const fetchCurrentUser = () => dispatch => {
     authRef.onAuthStateChanged(user => {
-        debugger;
         if (user) {
             if (!user.accessToken) {
                 authRef.currentUser.getIdToken().then((idToken) => {
@@ -143,6 +207,12 @@ export const signIn = () => dispatch => {
         .signInWithPopup(provider)
         .then(result => {
             console.log("Sign in successful");
+            saveUserRecord({
+                displayName: result.user.displayName,
+                email: result.user.email,
+                phoneNumber: result.user.phoneNumber,
+                photoURL: result.user.photoURL
+            });
             authRef.currentUser.getIdToken().then((idToken) => {
                 window.localStorage.setItem("accessToken", idToken);
                 window.localStorage.setItem("uid", result.user.uid);

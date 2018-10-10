@@ -1,7 +1,7 @@
-import "materialize-css/dist/css/materialize.min.css";
-import "materialize-css/dist/js/materialize.min.js";
-import 'font-awesome/css/font-awesome.min.css';
-import 'bootstrap-css-only/css/bootstrap.min.css';
+import "materialize-css/dist/css/materialize.css";
+import "materialize-css/dist/js/materialize.js";
+import 'font-awesome/css/font-awesome.css';
+import 'bootstrap-css-only/css/bootstrap.css';
 import 'mdbreact/dist/css/mdb.css';
 import './index.css';
 import React from "react";

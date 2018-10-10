@@ -80,3 +80,31 @@ code {
   vertical-align: middle;
   padding-top: 10%;
 }
+
+/* label color */
+.input-field label {
+  color: indigo;
+}
+
+/* label color */
+.input-field input[type=text] {
+  color: indigo !important;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+  color: #cc7f1a !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #cc7f1a !important;
+  box-shadow: 0 1px 0 0 #cc7f1a !important;
+}
+/* icon prefix focus color */
+.input-field .prefix {
+  color: #cc7f1a !important;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #cc7f1a !important;
+}

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import data from "./dataReducer";
+import toDoList from "./todoReducer";
 import user from "./userReducer";
 
 export default combineReducers({
-  data,
+  toDoList,
   user
 });
