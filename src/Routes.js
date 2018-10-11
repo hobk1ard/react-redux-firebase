@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import requireAuth from "./components/auth/requireAuth";
@@ -20,12 +20,11 @@ class Routes extends React.Component {
         return (
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/Home" component={Home} />
-                <Route exact path="/SignIn" component={requireAuth(UserProfile, SignIn)} />
-                {/* <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} /> */}
+                <Route path="/Home" component={Home} />
+                <Route path="/SignIn" component={requireAuth(UserProfile, SignIn)} />
                 <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} />
                 <Route path="/UserProfile" component={requireAuth(UserProfile, SignIn)} />
-                <Route path="/Projects" component={Projects} />
+                {/* <Route path="/Projects" component={Projects} /> */}
                 <Route
                     render={function () {
                         return <h1>Not Found</h1>;
@@ -36,4 +35,4 @@ class Routes extends React.Component {
     }
 }
 
-export default connect(null, { fetchCurrentUser })(Routes);
+export default withRouter(connect(null, { fetchCurrentUser })(Routes));

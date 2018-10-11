@@ -10,8 +10,8 @@ class Home extends Component {
                     <br /><br />
                 </div>
                 <div className="row justify-content-md-center center-align">
-                    <div class="col" />
-                    <div class="col-md-auto">
+                    <div className="col" />
+                    <div className="col-md-auto">
                         <img
                             alt="Check Mark"
                             id="check-mark"
@@ -19,12 +19,12 @@ class Home extends Component {
                             height="100"
                         />
                     </div>
-                    <div class="col" />
+                    <div className="col" />
                 </div>
                 <div className="row justify-content-md-center center-align">
-                    <div class="col" />
-                    <div class="col-md-auto"><h4>Welcome to Elementary ToDo management</h4></div>
-                    <div class="col" />
+                    <div className="col" />
+                    <div className="col-md-auto"><h4>Welcome to Elementary ToDo management</h4></div>
+                    <div className="col" />
                 </div>
             </div>
         );

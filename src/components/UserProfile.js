@@ -1,7 +1,6 @@
 import "./UserProfile.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 class UserProfile extends Component {
     render() {
