@@ -17,7 +17,7 @@ import { signIn } from "./actions";
 
 import Routes from "./Routes";
 
-class App extends Component {
+export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +37,7 @@ class App extends Component {
     const { user } = this.props;
     if (user) {
       return (
-        <NavLink to="/UserProfile">
+        <NavLink to={`/UserProfile/${user.uid}`}>
           <div className="row nav-signin-container">
             <i className="fa fa-user-circle-o fa-lg"></i>
             {user.displayName}
@@ -132,7 +132,7 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+export const mapStateToProps = ({ user }) => {
   return { user };
 }
 

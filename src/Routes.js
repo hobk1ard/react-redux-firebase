@@ -23,6 +23,7 @@ class Routes extends React.Component {
                 <Route path="/Home" component={Home} />
                 <Route path="/SignIn" component={requireAuth(UserProfile, SignIn)} />
                 <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} />
+                <Route path="/UserProfile/:userId" component={requireAuth(UserProfile, SignIn)} />
                 <Route path="/UserProfile" component={requireAuth(UserProfile, SignIn)} />
                 {/* <Route path="/Projects" component={Projects} /> */}
                 <Route

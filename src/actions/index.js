@@ -24,7 +24,7 @@ export const addToDo = (newToDo, user, toDoCount) => async dispatch => {
                     id: toDoRef.key,
                     payload: newToDo
                 });
-                updateUserToDoCount(user, toDoCount + 1); 
+                updateUserToDoCount(user, toDoCount + 1);
                 break;
         }
     }
@@ -63,7 +63,7 @@ export const completeToDo = (completeToDoId, user, toDoCount) => async dispatch 
     }
 };
 
-const saveUserRecord = (user) => async () => {
+const saveUserRecord = (user) => {
     const record = {
         public: {
             displayName: user.displayName,
@@ -96,28 +96,30 @@ const saveUserRecord = (user) => async () => {
     }
 };
 
-const updateUserToDoCount = (user, count) => async () => {
-    switch (requestConfig) {
-        case "REST_API":
-            request.update(restApiUserRef + "/" + user.uid + "/public/toDoCount").send(count).then(res => {
-                console.log("User ToDo Count Updated");
-            }).catch(err => {
-                console.log("Error updating user todo count: " + err.message);
-            });
-            break;
-        case "API":
-        default:
-            usersRef
-                .child(user.uid)
-                .child("public")
-                .child("toDoCount")
-                .update(count)
-                .then(res => {
+const updateUserToDoCount = (user, count) => {
+    if (user && count) {
+        switch (requestConfig) {
+            case "REST_API":
+                request.set(restApiUserRef + "/" + user.uid + "/public/toDoCount").send(count).then(res => {
                     console.log("User ToDo Count Updated");
                 }).catch(err => {
                     console.log("Error updating user todo count: " + err.message);
-                });;
-            break;
+                });
+                break;
+            case "API":
+            default:
+                usersRef
+                    .child(user.uid)
+                    .child("public")
+                    .child("toDoCount")
+                    .set(count)
+                    .then(res => {
+                        console.log("User ToDo Count Updated");
+                    }).catch(err => {
+                        console.log("Error updating user todo count: " + err.message);
+                    });;
+                break;
+        }
     }
 }
 
@@ -211,7 +213,8 @@ export const signIn = () => dispatch => {
                 displayName: result.user.displayName,
                 email: result.user.email,
                 phoneNumber: result.user.phoneNumber,
-                photoURL: result.user.photoURL
+                photoURL: result.user.photoURL,
+                uid: result.user.uid
             });
             authRef.currentUser.getIdToken().then((idToken) => {
                 window.localStorage.setItem("accessToken", idToken);
@@ -239,6 +242,11 @@ export const signOut = () => dispatch => {
         .signOut()
         .then(() => {
             console.log("Sign out successful");
+            window.localStorage.clear();
+            dispatch({
+                type: FETCH_USER,
+                payload: null
+            });
         })
         .catch(error => {
             console.log(error);
