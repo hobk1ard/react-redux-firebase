@@ -7,7 +7,6 @@ import ToDoList from "./components/ToDoList";
 import SignIn from "./components/SignIn";
 import UserProfile from "./components/UserProfile";
 import Home from "./components/Home";
-import Projects from "./components/Projects";
 
 import { fetchCurrentUser } from "./actions";
 
@@ -25,7 +24,7 @@ class Routes extends React.Component {
                 <Route path="/ToDoList" component={requireAuth(ToDoList, SignIn)} />
                 <Route path="/UserProfile/:userId" component={requireAuth(UserProfile, SignIn)} />
                 <Route path="/UserProfile" component={requireAuth(UserProfile, SignIn)} />
-                {/* <Route path="/Projects" component={Projects} /> */}
+                <Route path="/Projects" component={Home} />
                 <Route
                     render={function () {
                         return <h1>Not Found</h1>;
